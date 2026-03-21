@@ -1,183 +1,52 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ExploraMática - Missão Científica</title>
+    <title>ExploraMática</title>
     <style>
-        :root {
-            --biologia: #2ecc71;
-            --cosmos: #9b59b6;
-            --robotica: #e67e22;
-            --futuro: #3498db;
-            --dark: #2c3e50;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            background-color: #f4f7f6;
-            color: var(--dark);
-            text-align: center;
-        }
-
-        header {
-            background: var(--dark);
-            color: white;
-            padding: 2rem;
-            border-bottom: 5px solid var(--robotica);
-        }
-
-        .container {
-            max-width: 1000px;
-            margin: auto;
-            padding: 20px;
-        }
-
-        .personagens {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        .balao {
-            background: white;
-            padding: 15px;
-            border-radius: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            max-width: 300px;
-            font-style: italic;
-        }
-
-        .grid-modulos {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-top: 40px;
-        }
-
-        .card {
-            padding: 20px;
-            border-radius: 15px;
-            color: white;
-            cursor: pointer;
-            transition: transform 0.3s;
-            text-decoration: none;
-        }
-
-        .card:hover { transform: scale(1.05); }
-        .bg-bio { background-color: var(--biologia); }
-        .bg-cos { background-color: var(--cosmos); }
-        .bg-rob { background-color: var(--robotica); }
-        .bg-fut { background-color: var(--futuro); }
-
-        .modulo-content {
-            display: none;
-            background: white;
-            margin-top: 30px;
-            padding: 30px;
-            border-radius: 20px;
-            text-align: left;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-        }
-
-        button {
-            background: var(--dark);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        #medalhas {
-            margin-top: 50px;
-            padding: 20px;
-            border: 2px dashed #ccc;
-        }
+        body { font-family: sans-serif; text-align: center; background: #2c3e50; color: white; padding: 50px; }
+        .card { background: #e67e22; padding: 20px; border-radius: 15px; display: inline-block; margin: 10px; cursor: pointer; }
+        .modulo { display: none; background: white; color: #333; padding: 20px; border-radius: 15px; margin-top: 20px; }
+        input { padding: 10px; border-radius: 5px; border: 1px solid #ccc; }
+        button { padding: 10px 20px; background: #2c3e50; color: white; border: none; border-radius: 5px; cursor: pointer; }
     </style>
 </head>
 <body>
+    <h1>🚀 Missão ExploraMática</h1>
+    <p>Clique em um módulo para começar!</p>
 
-<header>
-    <h1>🚀 ExploraMática</h1>
-    <p>Sua Jornada de Matemática e Ciência Começa Agora!</p>
-</header>
+    <div class="card" onclick="abrir('bio')">🌿 Biologia</div>
+    <div class="card" onclick="abrir('cos')">🌌 Cosmos</div>
 
-<div class="container">
-    <div class="personagens">
-        <div class="balao"><strong>Ada:</strong> "Pronto para processar dados espaciais?"</div>
-        <div class="balao"><strong>Dr. Newton:</strong> "Vamos medir a vida na Terra!"</div>
+    <div id="bio" class="modulo">
+        <h2>Missão Biologia</h2>
+        <p>Se uma planta cresce 2cm por dia, quanto ela cresce em 10 dias?</p>
+        <input type="number" id="resp">
+        <button onclick="check()">Verificar</button>
+        <p id="feedback"></p>
     </div>
 
-    <div class="grid-modulos">
-        <div class="card bg-bio" onclick="mostrarModulo('bio')">🌿 Biologia</div>
-        <div class="card bg-cos" onclick="mostrarModulo('cos')">🌌 Cosmos</div>
-        <div class="card bg-rob" onclick="mostrarModulo('rob')">🤖 Robótica</div>
-        <div class="card bg-fut" onclick="mostrarModulo('fut')">🌍 Futuro</div>
+    <div id="cos" class="modulo">
+        <h2>Missão Cosmos</h2>
+        <p>Digite seu peso para ver quanto pesaria na Lua:</p>
+        <input type="number" id="peso">
+        <button onclick="lua()">Calcular</button>
+        <p id="resLua"></p>
     </div>
 
-    <div id="mod-cos" class="modulo-content">
-        <h2 style="color: var(--cosmos)">🌌 Missão Cosmos: Peso Espacial</h2>
-        <p>A gravidade na Lua é 6x menor que na Terra. Digite seu peso para ver a mágica!</p>
-        <input type="number" id="pesoTerra" placeholder="Seu peso em kg">
-        <button onclick="calcularPeso()">Calcular Peso na Lua</button>
-        <h3 id="resultadoPeso"></h3>
-        <button onclick="fecharModulos()">Voltar ao Mapa</button>
-    </div>
-
-    <div id="mod-bio" class="modulo-content">
-        <h2 style="color: var(--biologia)">🌿 Missão Biologia: O Feijão Gigante</h2>
-        <p>Se um feijão cresce 2cm por dia, quanto ele terá em 10 dias?</p>
-        <input type="number" id="respBio">
-        <button onclick="checkBio()">Verificar Resposta</button>
-        <p id="feedbackBio"></p>
-        <button onclick="fecharModulos()">Voltar ao Mapa</button>
-    </div>
-
-    <div id="medalhas">
-        <h3>🏆 Minhas Medalhas</h3>
-        <div id="lista-medalhas">Nenhuma medalha conquistada ainda.</div>
-    </div>
-</div>
-
-<script>
-    function mostrarModulo(id) {
-        fecharModulos();
-        document.getElementById('mod-' + id).style.display = 'block';
-    }
-
-    function fecharModulos() {
-        const modulos = document.querySelectorAll('.modulo-content');
-        modulos.forEach(m => m.style.display = 'none');
-    }
-
-    function calcularPeso() {
-        const peso = document.getElementById('pesoTerra').value;
-        const pesoLua = (peso / 6).toFixed(2);
-        document.getElementById('resultadoPeso').innerText = "Na Lua, você pesaria apenas " + pesoLua + " kg!";
-        ganharMedalha("🚀 Astronauta Matemático");
-    }
-
-    function checkBio() {
-        const resp = document.getElementById('respBio').value;
-        if(resp == 20) {
-            document.getElementById('feedbackBio').innerText = "Correto! Você é um mestre da botânica!";
-            ganharMedalha("🌱 Guardião da Vida");
-        } else {
-            document.getElementById('feedbackBio').innerText = "Quase lá! Tente multiplicar 2 por 10.";
+    <script>
+        function abrir(id) {
+            document.querySelectorAll('.modulo').forEach(m => m.style.display = 'none');
+            document.getElementById(id).style.display = 'block';
         }
-    }
-
-    function ganharMedalha(nome) {
-        const lista = document.getElementById('lista-medalhas');
-        if(lista.innerText.includes(nome)) return;
-        if(lista.innerText.includes("Nenhuma")) lista.innerText = "";
-        lista.innerHTML += "<span style='margin-right:10px; padding:5px; background:#ffd700; border-radius:5px;'>🏅 " + nome + "</span>";
-    }
-</script>
-
+        function check() {
+            let r = document.getElementById('resp').value;
+            document.getElementById('feedback').innerText = (r == 20) ? "✅ Acertou!" : "❌ Tente de novo!";
+        }
+        function lua() {
+            let p = document.getElementById('peso').value;
+            document.getElementById('resLua').innerText = "Na Lua: " + (p/6).toFixed(2) + " kg";
+        }
+    </script>
 </body>
 </html>
